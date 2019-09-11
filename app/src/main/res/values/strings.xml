@@ -1,0 +1,17 @@
+<resources>
+    <!-- region non ui resources-->
+    <string translatable="false" name="github_client_id">fc5d4e3057081fee4d1d</string>
+    <string translatable="false" name="github_client_secret">54b8ff21d17cadc7274e3dbbd3a32ea6105c9d4f</string>
+    <string translatable="false" name="github_client_redirect">schema://co.me.ghub</string>
+    <!--endregion-->
+
+    <string name="app_name">ghub</string>
+    <string name="hint_login">Login</string>
+    <string name="hint_password">Password</string>
+    <string name="title_login">Login to github \nPress the button to enter your credentials</string>
+    <string name="text_login">Login</string>
+    <string name="text_stars">Stars =</string>
+    <string name="text_kotlin">Kotlin</string>
+    <string name="text_login_failed">Login failed</string>
+    <string name="error_undefined">Something went wrong</string>
+</resources>
