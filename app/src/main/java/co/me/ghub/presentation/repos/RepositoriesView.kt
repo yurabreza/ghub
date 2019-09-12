@@ -5,5 +5,4 @@ import co.me.ghub.presentation.base.MvpView
 
 interface RepositoriesView : MvpView {
     fun updateRepos(repos: List<Repository>)
-    fun onError(message: String?)
 }

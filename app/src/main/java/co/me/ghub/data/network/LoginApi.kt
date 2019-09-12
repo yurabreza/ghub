@@ -11,7 +11,7 @@ import retrofit2.http.Url
 interface LoginApi {
 
     @Headers("Accept: application/json")
-    @POST()
+    @POST
     @FormUrlEncoded
     suspend fun getAccessToken(
         @Field("client_id") clientId: String,

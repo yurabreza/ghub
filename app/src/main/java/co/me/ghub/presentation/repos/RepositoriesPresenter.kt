@@ -11,7 +11,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
@@ -22,7 +21,6 @@ class RepositoriesPresenter(
     private val repositoriesRepository: IRepositoriesRepository
 ) : MvpPresenter(view) {
 
-    private var supervisor = SupervisorJob()
     private val coroutineExceptionHandler =
         CoroutineExceptionHandler { _, exception ->
             exception.printStackTrace()
@@ -95,9 +93,5 @@ class RepositoriesPresenter(
 
     fun cancelSearch() {
         supervisor.cancelChildren()
-    }
-
-    override fun unbind() {
-        supervisor.cancel()
     }
 }

@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import androidx.annotation.IdRes
 import androidx.core.view.isVisible
+import androidx.navigation.fragment.findNavController
 import co.me.ghub.BuildConfig.BASE_LOGIN_URL
 import co.me.ghub.BuildConfig.CLIENT_ID
 import co.me.ghub.BuildConfig.CLIENT_REDIRECT
@@ -91,7 +92,7 @@ class LoginFragment : MvpFragment(), LoginView {
 
     override fun loginSuccess() {
         progressBar?.isVisible = false
-        (context as OnLoginListener).login()
+        findNavController().navigate(R.id.action_loginFragment_to_repositoriesFragment)
     }
 
     override fun loginFailed() {
@@ -99,8 +100,9 @@ class LoginFragment : MvpFragment(), LoginView {
         toast(getString(string.text_login_failed))
     }
 
-    interface OnLoginListener {
-        fun login()
+    override fun onError(message: String?) {
+        super.onError(message)
+        progressBar?.isVisible = false
     }
 
     object Id {

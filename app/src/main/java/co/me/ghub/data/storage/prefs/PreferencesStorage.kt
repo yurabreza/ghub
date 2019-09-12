@@ -16,7 +16,11 @@ class PreferencesStorage(
             .apply()
     }
 
-    override fun getGithubAuthHeader(): String {
-        return "token ${prefs.getString(KEY_GITHUB_ACCESS_TOKEN, "")}"
+    override fun getGithubAuthHeaderToken(): String {
+        return prefs.getString(KEY_GITHUB_ACCESS_TOKEN, "")!!
+    }
+
+    override fun isUserTokenStored(): Boolean {
+        return prefs.getString(KEY_GITHUB_ACCESS_TOKEN, "")!!.isNotEmpty()
     }
 }

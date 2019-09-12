@@ -1,4 +1,4 @@
-package co.me.ghub
+package co.me.ghub.presentation
 
 import android.app.Application
 import co.me.ghub.di.applicationModule

@@ -3,8 +3,6 @@ package co.me.ghub.presentation.repos
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.Gravity.CENTER
 import android.view.LayoutInflater
 import android.view.View
@@ -18,7 +16,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import co.me.ghub.R
 import co.me.ghub.R.drawable
 import co.me.ghub.R.string
 import co.me.ghub.data.model.Repository
@@ -29,7 +26,6 @@ import co.me.ghub.presentation.util.RecyclerBottomScrolledListener
 import co.me.ghub.presentation.util.RecyclerBottomScrolledListener.BottomScrolledListener
 import co.me.ghub.presentation.util.ext.hideKeyboard
 import co.me.ghub.presentation.util.isOnline
-import kotlinx.coroutines.android.asCoroutineDispatcher
 import org.jetbrains.anko.dip
 import org.jetbrains.anko.editText
 import org.jetbrains.anko.find
@@ -41,7 +37,6 @@ import org.jetbrains.anko.padding
 import org.jetbrains.anko.progressBar
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.UI
-import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.view
 import org.jetbrains.anko.wrapContent
 import org.koin.android.scope.currentScope
@@ -49,10 +44,8 @@ import org.koin.core.parameter.parametersOf
 
 class RepositoriesFragment : MvpFragment(), RepositoriesView, BottomScrolledListener {
 
-    override val presenter: RepositoriesPresenter by currentScope.inject {
-        parametersOf(this, mainDispatcher)
-    }
-    private val mainDispatcher by lazy { Handler(Looper.getMainLooper()).asCoroutineDispatcher() }
+    override val presenter: RepositoriesPresenter by currentScope.inject { parametersOf(this) }
+
     private val progressBar by lazy { view?.find<ProgressBar>(Id.progressBar) }
     private val searchText by lazy { view?.find<EditText>(Id.searchText) }
 
@@ -63,10 +56,7 @@ class RepositoriesFragment : MvpFragment(), RepositoriesView, BottomScrolledList
         presenter.deleteRepository(repo)
     }
 
-    private val reposAdapter = RepositoriesAdapter(
-        onRepositoryClickListener,
-        onRepositoryDeleteListener
-    )
+    private val reposAdapter = RepositoriesAdapter(onRepositoryClickListener, onRepositoryDeleteListener)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return UI {
@@ -158,8 +148,8 @@ class RepositoriesFragment : MvpFragment(), RepositoriesView, BottomScrolledList
     }
 
     override fun onError(message: String?) {
+        super.onError(message)
         progressBar?.isVisible = false
-        toast(message ?: getString(R.string.error_undefined))
     }
 
     object Id {

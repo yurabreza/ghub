@@ -1,41 +1,27 @@
 package co.me.ghub.presentation
 
-import android.R.anim
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import co.me.ghub.data.storage.prefs.IPreferencesStorage
+import androidx.navigation.fragment.NavHostFragment
+import co.me.ghub.R
 import co.me.ghub.presentation.MainActivity.Id.root
-import co.me.ghub.presentation.login.LoginFragment
-import co.me.ghub.presentation.login.LoginFragment.OnLoginListener
-import co.me.ghub.presentation.repos.RepositoriesFragment
 import org.jetbrains.anko.frameLayout
-import org.koin.android.ext.android.inject
 
-class MainActivity : AppCompatActivity() ,OnLoginListener{
-
-    private val prefs :IPreferencesStorage by inject()
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         frameLayout { id = root }
-        if (prefs.getGithubAuthHeader().isEmpty()) {
-            replaceFragment(LoginFragment())
-        } else {
-            replaceFragment(RepositoriesFragment())
-        }
+        setupNavHost(NavHostFragment.create(R.navigation.nav_graph))
     }
 
-    override fun login() {
-        replaceFragment(RepositoriesFragment())
-    }
-
-    private fun replaceFragment(frag: Fragment) {
+    private fun setupNavHost(frag: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(root, frag, frag::class.java.simpleName)
-            .setCustomAnimations(anim.fade_in, anim.fade_out)
+            .setPrimaryNavigationFragment(frag)
             .commitAllowingStateLoss()
     }
 

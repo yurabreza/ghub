@@ -1,3 +1,5 @@
 package co.me.ghub.presentation.base
 
-interface MvpView
+interface MvpView {
+    fun onError(message: String?)
+}
